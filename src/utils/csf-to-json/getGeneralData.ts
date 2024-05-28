@@ -146,7 +146,9 @@ export function getGeneralData(csf: string) {
   generalData.rfc = csf.match(/RFC:\s+(.*?)\s+(Denominación|CURP)/)![1]!;
 
   generalData.regimenCapital =
-    csf.match(/Régimen\s+Capital:\s+(.*?)\s+Nombre/)?.[1] ?? "";
+    csf
+      .match(/Régimen\s+Capital:\s+(.*?)\s+Nombre/)?.[1]
+      ?.replace(/\s+\(\*+\)/g, "") ?? "";
 
   generalData.abreviaturaRegimen = association(generalData.regimenCapital);
 
@@ -184,11 +186,11 @@ export function getGeneralData(csf: string) {
     )?.[1] ?? "";
 
   generalData.nombreDelMunicipioODemarcacionTerritorial = csf.match(
-    /Nombre\s+del\s+Municipio\s+o\s+Demarcación\s+Territorial:\s+(.*?)\s+Nombre/,
+    /Nombre\s+del\s+Municipio\s+o\s+(?:Demarcación\s+Territorial|Delegación):\s+(.*?)\s+Nombre/,
   )![1]!;
 
   generalData.nombreDeLaEntidadFederativa = csf.match(
-    /Nombre\s+de\s+la\s+Entidad\s+Federativa:\s+(.*?)\s+Entre/,
+    /Nombre\s+(?:del\s+Estado\s+o\s+Distrito\s+Federal|de\s+la\s+Entidad\s+Federativa):\s+(.*?)\s+Entre/,
   )![1]!;
 
   const startDate = csf
