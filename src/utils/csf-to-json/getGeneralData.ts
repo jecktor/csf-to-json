@@ -166,11 +166,14 @@ export function getGeneralData(csf: string) {
     /Nombre\s+de\s+Vialidad:\s+(.*?)\s+Número/,
   )![1]!;
 
-  generalData.entreCalle = csf.match(/Entre\s+Calle:\s+(.*?)\s+Y\s+Calle/)![1]!;
+  generalData.entreCalle =
+    csf.match(/Entre\s+Calle:\s+(.*?)\s+Y\s+Calle/)?.[1] ?? "";
 
-  generalData.yCalle = csf.match(
-    /Y\s+Calle:\s+(.*?)\s+(Actividades|Regímenes|Correo)/,
-  )![1]!;
+  if (generalData.entreCalle)
+    generalData.yCalle = csf.match(
+      /Y\s+Calle:\s+(.*?)\s+(Actividades|Regímenes|Correo)/,
+    )![1]!;
+  else generalData.yCalle = "";
 
   generalData.numeroExterior = csf.match(
     /Número\s+Exterior:\s+(.*?)\s+Número/,
